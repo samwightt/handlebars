@@ -137,7 +137,7 @@ If you want to learn more about Rust and why it's the most-loved programming lan
 
 ## What are parser combinators?
 
-Glad you asked! Parser combinators are basically reusable functions that accept in raw data that a computer understands and converts it to something that a computer 
+Glad you asked! Parser combinators are basically reusable functions that accept in raw data that a computer doesn't understands and convert it to something that a computer 
 does understand. What makes them cool is that they're *composable*. You can define really complex parsing logic (often called *grammar* with programming languages)
 by starting with the smallest parts of it and piecing the results together like Legos. 
 
@@ -162,7 +162,7 @@ What is this code doing though? Well, we're using a parser combinator provided b
 to not match with. It returns a function that can be used to validate whether a character is not one of these characters. Here, we're validating `input`, our input arg,
 and returning the result. 
 
-Note that input is a string, though. What happens to the rest of the characters if the first one gets consumed? Well, they're passed back in that `IResult`. Let's look again that this return type:
+Note that `input` is a string, though. What happens to the rest of the characters if the first one gets consumed? Well, they're passed back in that `IResult`. Let's look again that this return type:
 
 ```
 IResult<&str, char>
@@ -189,7 +189,7 @@ It's not too important to understand how this works. All you need to look at is 
 let (input, result) = many1(html_char)(input)?;
 ```
 
-We're using our previous parser combinator that we just defined, `html_char`, and passing it into another combinator defined by `nom`, `many`, which matches one or more occurences of a parser combinator. Basically, it'll take our `html_char`, run it over and over and over again on those leftovers from the `input`, wait until it fails, and then return the results in that `results` variables. The `input` variable there is still our leftovers. Super cool, right?
+We're using our previous parser combinator that we just defined, `html_char`, and passing it into another combinator defined by `nom`, `many1`, which matches one or more occurences of a parser combinator. Basically, it'll take our `html_char`, run it over and over and over again on those leftovers from the `input`, wait until it fails, and then return the results in that `results` variables. The `input` variable there is still our leftovers. Super cool, right?
 
 This means that we can define our grammar for our Handlebars variant using these small little functions, and then we can sort of call them recursively to get an AST
 ([Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). This simple code can parse any sort of complex HTML we throw at it, in a completely type-safe way. Pretty cool, right?

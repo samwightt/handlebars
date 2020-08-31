@@ -138,6 +138,4 @@ fn main() {
     </div>";
     let item = element(html);
     println!("{:?}", item);
-
-    println!("This works!");
 }

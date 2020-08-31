@@ -124,9 +124,9 @@ So that's what our code does! It takes the stuff stored in the `html` variable, 
 - What happens if you remove one of the semicolons?
 - What happens if you slightly misspell the `html` variable?
 
-Those last three are going to give you *compiler errors*, because the Rust compiler is very particular about what it will let you do. I'd definitely recommend trying to trigger one (only those two, though, other errors can get gnarly if you don't know what you're doing) to get an idea of what compiler errors in Rust look like. Notice how friendly they are?
+Those last three are going to give you *compiler errors*, because the Rust compiler is very particular about what it will let you do. I'd definitely recommend trying to trigger one (only those three, though, other errors can get gnarly if you don't know what you're doing) to get an idea of what compiler errors in Rust look like. Notice how friendly they are?
 
-That's what's great about Rust. The programs you right with it are more stable, easier to reason about, and are *much* faster than most other programming languages.
+That's what's great about Rust. The programs you write with it are more stable, easier to reason about, and are *much* faster than most other programming languages.
 Rust is a systems-level programming langauge with a lot of higher-level features and packages, meaning you can use it basically anywhere in your stack. It integrates
 with Javascript and Ruby, can run in the browser using WASM, can run on almost any computer, and can do a lot of cool stuff that you'll miss when you're
 using other langauges.

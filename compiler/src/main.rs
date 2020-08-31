@@ -137,5 +137,5 @@ fn main() {
         <div>This works as well!</div>
     </div>";
     let item = element(html);
-    println!("{:?}", item);
+    println!("{:#?}", item);
 }

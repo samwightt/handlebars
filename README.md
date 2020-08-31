@@ -64,7 +64,7 @@ fn main() {
         <div>This works as well!</div>
     </div>";
     let item = element(html);
-    println!("{:?}", item);
+    println!("{:#?}", item);
 }
 ```
 
@@ -111,10 +111,10 @@ Element is a function that accepts in a string reference (`&str`) and returns a 
 Let's look at the last line of code:
 
 ```
-println!("{:?}", item);
+println!("{:#?}", item);
 ```
 
-This uses the `println!` macro (basically a function, but slightly more complex) to output the value of `item`. A call to `println!` will always begin with a string like that; inside the string, you can see we're using a special syntax: `{:?}`. This little bracket thingy basically takes whatever argument is passed into `println!` and outputs all of it (so long as it implements the `Debug` trait, but that's not important). If you've used `println` in any other language, the behavior is almost identical, but the syntax is just a little bit different.
+This uses the `println!` macro (basically a function, but slightly more complex) to output the value of `item`. A call to `println!` will always begin with a string like that; inside the string, you can see we're using a special syntax: `{:#?}`. This little bracket thingy basically takes whatever argument is passed into `println!` and outputs all of it (so long as it implements the `Debug` trait, but that's not important). If you've used `println` in any other language, the behavior is almost identical, but the syntax is just a little bit different.
 
 So that's what our code does! It takes the stuff stored in the `html` variable, parses it, and outputs it to the console. Play around with it and see what happens. Here's some experiments you can try:
 

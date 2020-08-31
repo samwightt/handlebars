@@ -131,6 +131,6 @@ Rust is a systems-level programming langauge with a lot of higher-level features
 with Javascript and Ruby, can run in the browser using WASM, can run on almost any computer, and can do a lot of cool stuff that you'll miss when you're
 using other langauges.
 
-Also one of the more talked about features with Rust is that it doesn't have a garbage compiler, making it as fast as C. However, you never have to manually
+Also one of the more talked about features with Rust is that it doesn't have a garbage collector, making it as fast as C. However, you never have to manually
 allocate memory with Rust because of its unique *ownership model*. If your code compiles, it's memory efficient and de-allocates variables when it needs to.
 If you want to learn more about Rust and why it's the most-loved programming language on StackOverflow for four years in row, [read this article](https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/#:~:text=One%20of%20the%20biggest%20benefits,and%20can%20be%20cleaned%20up.).

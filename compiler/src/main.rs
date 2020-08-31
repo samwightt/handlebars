@@ -31,7 +31,6 @@ enum HTMLElement {
     ElementWithChildren {
         start_tag: HTMLIdentifier,
         end_tag: HTMLIdentifier,
-        attributes: Vec<HTMLAttribute>,
         children: Vec<HTMLChild>
     }
 }

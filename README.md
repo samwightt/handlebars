@@ -134,3 +134,67 @@ using other langauges.
 Also one of the more talked about features with Rust is that it doesn't have a garbage collector, making it as fast as C. However, you never have to manually
 allocate memory with Rust because of its unique *ownership model*. If your code compiles, it's memory efficient and de-allocates variables when it needs to.
 If you want to learn more about Rust and why it's the most-loved programming language on StackOverflow for four years in row, [read this article](https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/#:~:text=One%20of%20the%20biggest%20benefits,and%20can%20be%20cleaned%20up.).
+
+## What are parser combinators?
+
+Glad you asked! Parser combinators are basically reusable functions that accept in raw data that a computer understands and converts it to something that a computer 
+does understand. What makes them cool is that they're *composable*. You can define really complex parsing logic (often called *grammar* with programming languages)
+by starting with the smallest parts of it and piecing the results together like Legos. 
+
+Let's look at an example. Here's the code for a combinator called `html_char` in the parser here:
+
+```
+fn html_char(input: &str) -> IResult<&str, char> {
+    none_of("{<>}")(input)
+}
+```
+
+Remember how we defined `fn main()` earlier? Well we can define other functions in Rust using the same syntax. Here we define a function called `html_char` that
+accepts in a string reference (that `&str`, remember) and returns another one of those `IResult` things. Note that Rust has a weird return syntax: if you don't put
+a semicolon (`;`) on the last line of a function, Rust will assume that that's what you're meaning to return (called *implicit returns*, much like Ruby). You can
+still use the regular `return` keyword that you're used to though:
+
+```
+return none_of("{<>}")(input);
+```
+
+What is this code doing though? Well, we're using a parser combinator provided by the `nom` library. This one (called `none_of`) accepts in a string of characters
+to not match with. It returns a function that can be used to validate whether a character is not one of these characters. Here, we're validating `input`, our input arg,
+and returning the result. 
+
+Note that input is a string, though. What happens to the rest of the characters if the first one gets consumed? Well, they're passed back in that `IResult`. Let's look again that this return type:
+
+```
+IResult<&str, char>
+```
+
+The first part of the IResult is **what's left over from whatever parsing we're doing**. The second part is **what is parsed**. So here, we're parsing a `char` (a 
+character in Rust) and returning it, then also returning *all of the leftover string*. That's how we can *combine* the parser combinators; because we always
+have the leftovers of them, we can just pass those leftovers into other parser combinators.
+
+Let's look at the `html_text` parser combinator in the `main.rs` file next:
+
+```
+fn html_text(input: &str) -> IResult<&str, HTMLChild> {
+    let (input, result) = many1(html_char)(input)?;
+    let result: String = result.into_iter().collect();
+
+    Ok((input, HTMLChild::Text(result)))
+}
+```
+
+It's not too important to understand how this works. All you need to look at is this first line:
+
+```
+let (input, result) = many1(html_char)(input)?;
+```
+
+We're using our previous parser combinator that we just defined, `html_char`, and passing it into another combinator defined by `nom`, `many`, which matches one or more occurences of a parser combinator. Basically, it'll take our `html_char`, run it over and over and over again on those leftovers from the `input`, wait until it fails, and then return the results in that `results` variables. The `input` variable there is still our leftovers. Super cool, right?
+
+This means that we can define our grammar for our Handlebars variant using these small little functions, and then we can sort of call them recursively to get an AST
+([Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)). This simple code can parse any sort of complex HTML we throw at it, in a completely type-safe way. Pretty cool, right?
+
+If you want to learn more about grammars, lexers, compilers, interpreters, and the like, I'd highly recommend checking out the book [Crafting Interpreters](https://craftinginterpreters.com/),
+a book that teaches you how to write your own interpreter. The part about grammars is where it gets really important, but scanning is also important to understand. I'd also recommend
+following my dev friend [Linus on Twitter](https://twitter.com/thesephist); he makes his own programming language, Ink, and tweets a lot about it. He's the person that originally got me
+into making programming langauges.

@@ -1,5 +1,5 @@
-use compiler::parser::html_element;
 use compiler::analyzer::analyze_tree;
+use compiler::parser::html_element;
 
 fn main() {
     let html = "<div>
@@ -15,11 +15,11 @@ fn main() {
     let other_results = analyze_tree(&results);
 
     match other_results {
-      Ok(()) => {
-        println!("{:#?}", results);
-      }
-      Err(string) => {
-        println!("{}", string);
-      }
+        Ok(()) => {
+            println!("{:#?}", results);
+        }
+        Err(string) => {
+            println!("{}", string);
+        }
     }
 }

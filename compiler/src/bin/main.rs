@@ -1,9 +1,5 @@
-mod parser;
-mod analyzer;
-mod types;
-
-use parser::html_element;
-use analyzer::analyze_tree;
+use compiler::parser::html_element;
+use compiler::analyzer::analyze_tree;
 
 fn main() {
     let html = "<div>

@@ -1,27 +1,27 @@
 use nom::{IResult, character::complete::{char, alphanumeric1, none_of, multispace0}, sequence::{tuple, delimited}, bytes::complete::tag, branch::{alt}, multi::{many1, many0}};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLChild {
     Text(String),
     Element(Box<HTMLElement>)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLStartTag {
     Tag(String, Vec<HTMLAttribute>)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLEndTag {
     Tag(String)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLValue {
     String(String)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLAttribute {
     Attribute {
         name: String,
@@ -29,7 +29,7 @@ pub enum HTMLAttribute {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum HTMLElement {
     SelfClosingElement(HTMLStartTag),
     ElementWithChildren {
@@ -88,11 +88,12 @@ fn attribute_value(input: &str) -> IResult<&str, HTMLValue> {
 }
 
 fn attribute_name(input: &str) -> IResult<&str, String> {
-    let (input, res) = many0(attribute_char)(input)?;
+    let (input, res) = many1(attribute_char)(input)?;
     let res: String = res.into_iter().collect();
     Ok((input, res))
 }
 
+// TODO: Add support for attributes without attribute values.
 fn html_attribute(input: &str) -> IResult<&str, HTMLAttribute> {
     let (input, (_, name, _, _, _, value)) = tuple((multispace0, attribute_name, multispace0, char('='), multispace0, attribute_value))(input)?;
     Ok((input, HTMLAttribute::Attribute { name, value }))
@@ -134,3 +135,6 @@ fn self_closing_element(input: &str) -> IResult<&str, HTMLElement> {
 pub fn html_element(input: &str) -> IResult<&str, HTMLElement> {
     alt((element_with_children, self_closing_element))(input)
 }
+
+#[cfg(test)]
+mod tests;

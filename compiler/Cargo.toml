@@ -8,3 +8,5 @@ edition = "2018"
 
 [dependencies]
 nom = "5"
+serde_json = { version = "1.0.57", features = ["derive"] }
+serde = "1.0.115"
